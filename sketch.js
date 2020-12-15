@@ -1,10 +1,10 @@
 /* eslint-disable no-undef, no-unused-vars */
 let moduloSlider;
-let multipSlider;
+let tableSlider;
 
 // params
-let modulo = 10;
-let multip = 100;
+let modulo = 10; // todo : gérer modulo décimaux
+let table = 2; 
 const circleSize = 400;
 const dotSize = 5;
 let positionList = [];
@@ -22,56 +22,63 @@ function setup() {
 }
 
 function createSliders() {
-    moduloSlider = new Slider("modulo", 2, 500, 10);
+    moduloSlider = new Slider("modulo", 2, 2000, modulo);
     moduloSlider.input(draw);
-    
-    multipSlider = new Slider("table", 2, 200, 2);
-    multipSlider.input(draw);
+
+    tableSlider = new Slider("table", 2, 5000, table);
+    tableSlider.input(draw);
 }
 function draw() {
     background(255);
-    
+
     moduloSlider.draw();
-    multipSlider.draw();
-    
+    tableSlider.draw();
+
     push();
     translate(center.x, center.y);
     rotate(-PI / 2);
 
     positionList = [];
-    
+
 
     fill(0); // todo : ajouter un degradé de couleur fonction de l'avancement dans le cercle
     strokeWeight(lineThickness);
-    
+
     modulo = moduloSlider.value();
 
-    const pas = TWO_PI / modulo;
+    const offset = TWO_PI / modulo;
     let currentPos = [];
     for (let i = 0; i < modulo; i += 1) {
         currentPos = [
-            Math.floor(cos(pas * i) * circleSize),
-            Math.floor(sin(pas * i) * circleSize),
+            Math.floor(cos(offset * i) * circleSize),
+            Math.floor(sin(offset * i) * circleSize),
         ];
         positionList.push(currentPos);
         circle(...currentPos, dotSize);
     }
-
     console.log({ positionList });
+
 
     fill(15);
     stroke(0);
 
-    multip = multipSlider.value();
+    table = tableSlider.value() / 10;
     modulo = moduloSlider.value();
 
     for (let i = 0; i < modulo; i += 1) {
-        const from = i;
-        const to = (multip * i) % modulo;
-        line(positionList[from][0], positionList[from][1], positionList[to][0], positionList[to][1]);
+        const from = (TWO_PI / modulo) * i;
+        const to = (TWO_PI / modulo) * ((table * i) % modulo);
+    
+        line(
+            round(cos(from) * circleSize),
+            round(sin(from) * circleSize),
+            round(cos(to) * circleSize),
+            round(sin(to) * circleSize),
+        );
     }
     pop();
 
+    console.log({ positionList });
     noLoop();
 }
 

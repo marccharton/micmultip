@@ -12,12 +12,12 @@ class Slider {
         this.slider = createSlider(min, max, current);
         this.y = 10 + 20 * Slider.counter;
         this.slider.position(this.x, this.y);
-        this.slider.style("width", "300px");
+        this.slider.style("width", "700px");
     }
 
     draw() {
         textSize(15);
-        const value = this.value();
+        const value = this.value() / 10;
         text(`${this.name} = ${value}`, this.x - 100, this.y + 5);
     }
 
