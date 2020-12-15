@@ -6,7 +6,7 @@ let multipSlider;
 let modulo = 10;
 let multip = 100;
 const circleSize = 400;
-const dotSize = 10;
+const dotSize = 5;
 let positionList = [];
 const lineThickness = 1;
 
@@ -19,28 +19,29 @@ function setup() {
 
     center.x = windowWidth / 2;
     center.y = windowHeight / 2;
-
-    init();
 }
 
 function createSliders() {
-    moduloSlider = new Slider("modulo", 2, 200, 5);
-    moduloSlider.input(init);
+    moduloSlider = new Slider("modulo", 2, 500, 10);
+    moduloSlider.input(draw);
     
-    multipSlider = new Slider("table", 2, 200, 20);
-    multipSlider.input(init);
+    multipSlider = new Slider("table", 2, 200, 2);
+    multipSlider.input(draw);
 }
-
-function init() {
+function draw() {
     background(255);
-
-    positionList = [];
     
     moduloSlider.draw();
     multipSlider.draw();
+    
+    push();
+    translate(center.x, center.y);
+    rotate(-PI / 2);
 
+    positionList = [];
+    
 
-    fill(0);
+    fill(0); // todo : ajouter un degradé de couleur fonction de l'avancement dans le cercle
     strokeWeight(lineThickness);
     
     modulo = moduloSlider.value();
@@ -49,32 +50,27 @@ function init() {
     let currentPos = [];
     for (let i = 0; i < modulo; i += 1) {
         currentPos = [
-            Math.floor(center.x + cos(pas * i) * circleSize),
-            Math.floor(center.y + sin(pas * i) * circleSize),
+            Math.floor(cos(pas * i) * circleSize),
+            Math.floor(sin(pas * i) * circleSize),
         ];
         positionList.push(currentPos);
         circle(...currentPos, dotSize);
     }
 
     console.log({ positionList });
-    loop();
-}
-
-function draw() {
 
     fill(15);
     stroke(0);
 
     multip = multipSlider.value();
     modulo = moduloSlider.value();
+
     for (let i = 0; i < modulo; i += 1) {
         const from = i;
         const to = (multip * i) % modulo;
-
-        // console.log("from", from, positionList[from]);
-        // console.log("to", to, positionList[to]);
         line(positionList[from][0], positionList[from][1], positionList[to][0], positionList[to][1]);
     }
+    pop();
 
     noLoop();
 }
