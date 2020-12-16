@@ -3,33 +3,48 @@ let moduloSlider;
 let tableSlider;
 
 // params
-let modulo = 10; // todo : gérer modulo décimaux
-let table = 2; 
+const modulo = {
+    min : 2,
+    max : 20,
+    curr: 10,
+}; // todo : gérer modulo décimaux
+const table = {
+    min : 2,
+    max : 20,
+    curr: 2,
+}; 
 const circleSize = 400;
 const dotSize = 5;
 let positionList = [];
 const lineThickness = 1;
+const precision = 100;
+const speed = 1;
 
 const center = {};
 
 function setup() {
     createSliders();
     createCanvas(windowWidth, windowHeight);
-    frameRate(5);
+    frameRate(10);
 
     center.x = windowWidth / 2;
     center.y = windowHeight / 2;
 }
 
 function createSliders() {
-    moduloSlider = new Slider("modulo", 2, 2000, modulo);
+    modulo.max *= precision;
+    moduloSlider = new Slider("modulo", modulo.min, modulo.max, modulo.curr);
     moduloSlider.input(draw);
 
-    tableSlider = new Slider("table", 2, 5000, table);
+    table.max *= precision;
+    tableSlider = new Slider("table", table.min, table.max, table.curr);
     tableSlider.input(draw);
 }
 function draw() {
     background(255);
+
+    //tableSlider.value = 12;
+    tableSlider.value = tableSlider.value + speed;
 
     moduloSlider.draw();
     tableSlider.draw();
@@ -40,15 +55,21 @@ function draw() {
 
     positionList = [];
 
+    drawDots();
+    drawLines();
 
+    // noLoop();
+}
+
+function drawDots() {
     fill(0); // todo : ajouter un degradé de couleur fonction de l'avancement dans le cercle
     strokeWeight(lineThickness);
 
-    modulo = moduloSlider.value();
+    modulo.curr = moduloSlider.value;
 
-    const offset = TWO_PI / modulo;
+    const offset = TWO_PI / modulo.curr;
     let currentPos = [];
-    for (let i = 0; i < modulo; i += 1) {
+    for (let i = 0; i < modulo.curr; i += 1) {
         currentPos = [
             Math.floor(cos(offset * i) * circleSize),
             Math.floor(sin(offset * i) * circleSize),
@@ -57,17 +78,18 @@ function draw() {
         circle(...currentPos, dotSize);
     }
     console.log({ positionList });
+}
 
-
+function drawLines() {
     fill(15);
     stroke(0);
 
-    table = tableSlider.value() / 10;
-    modulo = moduloSlider.value();
+    table.curr = tableSlider.value / precision;
+    modulo.curr = moduloSlider.value;
 
-    for (let i = 0; i < modulo; i += 1) {
-        const from = (TWO_PI / modulo) * i;
-        const to = (TWO_PI / modulo) * ((table * i) % modulo);
+    for (let i = 0; i < modulo.curr; i += 1) {
+        const from = (TWO_PI / modulo.curr) * i;
+        const to = (TWO_PI / modulo.curr) * ((table.curr * i) % modulo.curr);
     
         line(
             round(cos(from) * circleSize),
@@ -79,7 +101,6 @@ function draw() {
     pop();
 
     console.log({ positionList });
-    noLoop();
 }
 
 // This Redraws the Canvas when resized
