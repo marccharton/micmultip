@@ -26,7 +26,7 @@ class Slider {
 
     draw(precision) {
         textSize(15);
-        const value = this.value / precision;
+        const value = precision ? this.value / precision : this.value;
         text(`${this.name} = ${value}`, this.x - 100, this.y + 5);
     }
 

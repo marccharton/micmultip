@@ -1,24 +1,37 @@
 /* eslint-disable no-undef, no-unused-vars */
 let moduloSlider;
 let tableSlider;
+let speedSlider;
+let thicknessSlider;
+
+// todo : mieux gérer les sliders pour faire un objet qui englobe tout : min, max, curr, precision (la précision devrait être par slider)
 
 // params
 const modulo = {
     min : 2,
-    max : 50,
-    curr: 20,
-}; // todo : gérer modulo décimaux
+    max : 500,
+    curr: 200,
+};
 const table = {
     min : 2,
-    max : 20,
+    max : 200,
     curr: 2,
 }; 
+const speed = {
+    min : 1,
+    max : 100,
+    curr: 10,
+}; 
+const thickness = {
+    min : 1,
+    max : 20,
+    curr: 1,
+}; 
+
 const circleSize = 400;
 const dotSize = 5;
 let positionList = [];
-const lineThickness = 1;
-const precision = 100;
-const speed = 1;
+const precision = 1000;
 
 const center = {};
 
@@ -41,14 +54,21 @@ function createSliders() {
     table.curr *= precision;
     tableSlider = new Slider("table", table.min, table.max, table.curr);
     tableSlider.input(draw);
+    
+    speedSlider = new Slider("speed", speed.min, speed.max, speed.curr);
+    speedSlider.input(draw);
+    
+    thicknessSlider = new Slider("thickness", thickness.min, thickness.max, thickness.curr);
+    thicknessSlider.input(draw);
 }
 function draw() {
     background(255);
 
-    tableSlider.value = tableSlider.value + speed;
+    tableSlider.value = tableSlider.value + speedSlider.value;
 
-    moduloSlider.draw(precision);
+    moduloSlider.draw();
     tableSlider.draw(precision);
+    speedSlider.draw();
 
     push();
     translate(center.x, center.y);
@@ -64,8 +84,7 @@ function draw() {
 
 function drawDots() {
     fill(0); // todo : ajouter un degradé de couleur fonction de l'avancement dans le cercle
-    strokeWeight(lineThickness);
-
+    
     modulo.curr = moduloSlider.value;
 
     const offset = TWO_PI / modulo.curr;
@@ -88,6 +107,7 @@ function drawLines() {
     table.curr = tableSlider.value / precision;
     modulo.curr = moduloSlider.value;
 
+    strokeWeight(thicknessSlider.value);
     for (let i = 0; i < modulo.curr; i += 1) {
         const from = (TWO_PI / modulo.curr) * i;
         const to = (TWO_PI / modulo.curr) * ((table.curr * i) % modulo.curr);
