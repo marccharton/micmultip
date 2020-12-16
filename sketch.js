@@ -5,8 +5,8 @@ let tableSlider;
 // params
 const modulo = {
     min : 2,
-    max : 20,
-    curr: 10,
+    max : 50,
+    curr: 20,
 }; // todo : gérer modulo décimaux
 const table = {
     min : 2,
@@ -25,29 +25,30 @@ const center = {};
 function setup() {
     createSliders();
     createCanvas(windowWidth, windowHeight);
-    frameRate(10);
+    frameRate(30);
 
     center.x = windowWidth / 2;
     center.y = windowHeight / 2;
 }
 
 function createSliders() {
-    modulo.max *= precision;
+    //modulo.max *= precision;
+    //modulo.curr *= precision;
     moduloSlider = new Slider("modulo", modulo.min, modulo.max, modulo.curr);
     moduloSlider.input(draw);
 
     table.max *= precision;
+    table.curr *= precision;
     tableSlider = new Slider("table", table.min, table.max, table.curr);
     tableSlider.input(draw);
 }
 function draw() {
     background(255);
 
-    //tableSlider.value = 12;
     tableSlider.value = tableSlider.value + speed;
 
-    moduloSlider.draw();
-    tableSlider.draw();
+    moduloSlider.draw(precision);
+    tableSlider.draw(precision);
 
     push();
     translate(center.x, center.y);
