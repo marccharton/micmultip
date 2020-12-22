@@ -38,7 +38,7 @@ class Slider {
 
     init(handleOnChange) {
         this.slider = createSlider(this.min, this.max, this.current);
-        this.y = 10 + 20 * Slider.counter;
+        this.y = 50 + 20 * Slider.counter;
         this.slider.position(this.x, this.y);
         this.slider.style("width", "700px");
         

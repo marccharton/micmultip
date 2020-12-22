@@ -7,36 +7,51 @@ const dotSize = { min : 1, max : 50, current: 5, };
 const sliders = [];
 
 const circleSize = 400;
-//const dotSize = 5;
 
 const center = {};
-let colors = [];
+let colors = {
+    from: "#000",
+    to: "#FFF",
+};
 
 function setup() {
-    createSliders();
+    createControls();
     createCanvas(windowWidth, windowHeight);
     frameRate(30);
+    colors.list = generateGradient(colors.from, colors.to);
 
     center.x = windowWidth / 2;
     center.y = windowHeight / 2;
 }
 
-function createSliders() {
-    modulo.slider = new Slider("modulo", modulo, () => {
-        colors = chroma.scale([chroma.random(),chroma.random()])
-                   .mode('lch')
-                   .colors(modulo.slider.value);
-    });
-    table.slider = new Slider("table", table, () => { draw(); } );
-    speed.slider = new Slider("speed", speed, () => { draw(); } );
-    thickness.slider = new Slider("thickness", thickness, () => { draw(); } );
-    dotSize.slider = new Slider("Dots Size", dotSize, () => { draw(); } );
+function createControls() {
+    modulo.slider = new Slider("modulo", modulo, () => { colors.list = generateGradient(colors.from, colors.to) });
+    table.slider = new Slider("table", table);
+    speed.slider = new Slider("speed", speed);
+    thickness.slider = new Slider("thickness", thickness);
+    dotSize.slider = new Slider("Dots Size", dotSize);
 
     sliders.push(modulo.slider);
     sliders.push(table.slider);
     sliders.push(speed.slider);
     sliders.push(thickness.slider);
     sliders.push(dotSize.slider);
+
+    changeColorsButton = createButton("Random Colors");
+    changeColorsButton.position(100, 10);
+    changeColorsButton.mousePressed(randomColors);
+}
+
+function randomColors() {
+    colors.from = chroma.random();
+    colors.to = chroma.random();
+    colors.list = generateGradient(colors.from, colors.to);
+}
+
+function generateGradient(from, to) {
+    return chroma.scale([from, to])
+                 .mode('lch')
+                 .colors(modulo.slider.value);
 }
 
 function draw() {
@@ -50,7 +65,6 @@ function draw() {
     
     translate(center.x, center.y);
     rotate(-PI / 2);
-    
 
     drawLines();
     drawPoints();
@@ -84,8 +98,8 @@ function drawLines() {
         const from = (TWO_PI / modulo.current) * i;
         const to = (TWO_PI / modulo.current) * ((table.current * i) % modulo.current);
     
-        if (colors.length > 0) {
-            stroke(colors[i]);
+        if (colors.list.length > 0) {
+            stroke(colors.list[i]);
         }
 
         line(
