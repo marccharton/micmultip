@@ -3,11 +3,11 @@ const modulo = { min : 2, max : 500, current: 200, };
 const table = { min : 2, max : 200, current: 2, precision : 1000, }; 
 const speed = { min : 1, max : 100, current: 10, }; 
 const thickness = { min : 1, max : 20, current: 1, }; 
+const dotSize = { min : 1, max : 50, current: 5, }; 
 const sliders = [];
 
 const circleSize = 400;
-const dotSize = 5;
-let positionList = [];
+//const dotSize = 5;
 
 const center = {};
 let colors = [];
@@ -30,11 +30,13 @@ function createSliders() {
     table.slider = new Slider("table", table, () => { draw(); } );
     speed.slider = new Slider("speed", speed, () => { draw(); } );
     thickness.slider = new Slider("thickness", thickness, () => { draw(); } );
+    dotSize.slider = new Slider("Dots Size", dotSize, () => { draw(); } );
 
     sliders.push(modulo.slider);
     sliders.push(table.slider);
     sliders.push(speed.slider);
     sliders.push(thickness.slider);
+    sliders.push(dotSize.slider);
 }
 
 function draw() {
@@ -44,40 +46,35 @@ function draw() {
 
     sliders.forEach(slider => slider.update());
 
-    positionList = [];
-
     push();
     
     translate(center.x, center.y);
     rotate(-PI / 2);
+    
 
-    calulate();
     drawLines();
+    drawPoints();
     
     pop();
 }
 
-function calulate() {
+function drawPoints() {
     fill(0);
+    noStroke();
     
     modulo.current = modulo.slider.value;
-
     const offset = TWO_PI / modulo.current;
-    let currentPos = [];
+
     for (let i = 0; i < modulo.current; i += 1) {
-        currentPos = [
+        circle(
             Math.floor(cos(offset * i) * circleSize),
-            Math.floor(sin(offset * i) * circleSize),
-        ];
-        positionList.push(currentPos);
-        // circle(...currentPos, dotSize);
+            Math.floor(sin(offset * i) * circleSize), 
+            dotSize.slider.value,
+        );
     }
-    // console.log({ positionList });
 }
 
 function drawLines() {
-    fill(0);
-    stroke(0);
 
     table.current = table.slider.value;
     modulo.current = modulo.slider.value;
@@ -99,7 +96,6 @@ function drawLines() {
         );
     }
 
-    // console.log({ positionList });
 }
 
 // This Redraws the Canvas when resized
