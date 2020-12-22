@@ -1,9 +1,9 @@
 // params
-const modulo = { min : 2, max : 500, current: 200, };
-const table = { min : 2, max : 200, current: 2, precision : 1000, }; 
+const modulo = { min : 2, max : 500, current: 400, };
+const table = { min : 2, max : 200, current: 50, precision : 1000, }; 
 const speed = { min : 1, max : 100, current: 10, }; 
-const thickness = { min : 1, max : 20, current: 1, }; 
-const dotSize = { min : 1, max : 50, current: 5, }; 
+const thickness = { min : 1, max : 300, current: 2, }; 
+const dotSize = { min : 1, max : 50, current: 20, }; 
 const sliders = [];
 
 const circleSize = 400;
@@ -65,6 +65,7 @@ function draw() {
     
     translate(center.x, center.y);
     rotate(-PI / 2);
+    
 
     drawLines();
     drawPoints();

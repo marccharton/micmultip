@@ -31,7 +31,7 @@ class Slider {
         if (precision !== undefined) {
             this.precision = precision;
             this.max *= this.precision;
-            this.curr *= this.precision;
+            this.current *= this.precision;
         }
         this.init(handleOnChange);
     }
