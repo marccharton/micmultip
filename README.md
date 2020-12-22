@@ -3,6 +3,7 @@
 ## Preview
 
 ![Preview](exports/preview.png)
+![Preview Animated](https://i.gyazo.com/8eb07384af8aadc1ae8b0d67e695a6e7.gif)
 
 ## Origine
 
