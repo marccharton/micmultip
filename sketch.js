@@ -1,8 +1,8 @@
 // params
-const modulo = { min : 2, max : 500, curr: 200, };
-const table = { min : 2, max : 200, curr: 2, precision : 1000, }; 
-const speed = { min : 1, max : 100, curr: 10, }; 
-const thickness = { min : 1, max : 20, curr: 1, }; 
+const modulo = { min : 2, max : 500, current: 200, };
+const table = { min : 2, max : 200, current: 2, precision : 1000, }; 
+const speed = { min : 1, max : 100, current: 10, }; 
+const thickness = { min : 1, max : 20, current: 1, }; 
 
 const circleSize = 400;
 const dotSize = 5;
@@ -39,26 +39,27 @@ function draw() {
     table.slider.draw();
     speed.slider.draw();
 
+    positionList = [];
+
     push();
+    
     translate(center.x, center.y);
     rotate(-PI / 2);
 
-    positionList = [];
-
     drawDots();
     drawLines();
-
-    // noLoop();
+    
+    pop();
 }
 
 function drawDots() {
-    fill(0); // todo : ajouter un degradé de couleur fonction de l'avancement dans le cercle
+    fill(0);
     
-    modulo.curr = modulo.slider.value;
+    modulo.current = modulo.slider.value;
 
-    const offset = TWO_PI / modulo.curr;
+    const offset = TWO_PI / modulo.current;
     let currentPos = [];
-    for (let i = 0; i < modulo.curr; i += 1) {
+    for (let i = 0; i < modulo.current; i += 1) {
         currentPos = [
             Math.floor(cos(offset * i) * circleSize),
             Math.floor(sin(offset * i) * circleSize),
@@ -73,13 +74,13 @@ function drawLines() {
     fill(15);
     stroke(0);
 
-    table.curr = table.slider.value;
-    modulo.curr = modulo.slider.value;
+    table.current = table.slider.value;
+    modulo.current = modulo.slider.value;
 
     strokeWeight(thickness.slider.value);
-    for (let i = 0; i < modulo.curr; i += 1) {
-        const from = (TWO_PI / modulo.curr) * i;
-        const to = (TWO_PI / modulo.curr) * ((table.curr * i) % modulo.curr);
+    for (let i = 0; i < modulo.current; i += 1) {
+        const from = (TWO_PI / modulo.current) * i;
+        const to = (TWO_PI / modulo.current) * ((table.current * i) % modulo.current);
     
         line(
             round(cos(from) * circleSize),
@@ -88,7 +89,6 @@ function drawLines() {
             round(sin(to) * circleSize),
         );
     }
-    pop();
 
     console.log({ positionList });
 }
