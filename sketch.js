@@ -1,12 +1,12 @@
 // params
-const modulo = { min : 2, max : 500, current: 400, };
+const modulo = { min : 2, max : 700, current: 400, };
 const table = { min : 2, max : 200, current: 50, precision : 1000, }; 
-const speed = { min : 1, max : 100, current: 10, }; 
+const speed = { min : 1, max : 100, current: 5, }; 
 const thickness = { min : 1, max : 300, current: 2, }; 
-const dotSize = { min : 1, max : 50, current: 20, }; 
+const dotSize = { min : 0, max : 50, current: 20, }; 
 const sliders = [];
 
-const circleSize = 400;
+let circleSize;
 
 const center = {};
 let colors = {
@@ -20,6 +20,7 @@ function setup() {
     frameRate(30);
     colors.list = generateGradient(colors.from, colors.to);
 
+    circleSize = windowHeight / 3;
     center.x = windowWidth / 2;
     center.y = windowHeight / 2;
 }
@@ -55,7 +56,7 @@ function generateGradient(from, to) {
 }
 
 function draw() {
-    background(255);
+    background(255); // todo : dark mode.
 
     table.slider.increment(speed.slider.value);
 
@@ -65,7 +66,7 @@ function draw() {
     
     translate(center.x, center.y);
     rotate(-PI / 2);
-    
+    rotate(-table.slider.value);
 
     drawLines();
     drawPoints();
