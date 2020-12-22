@@ -3,6 +3,7 @@ const modulo = { min : 2, max : 500, current: 200, };
 const table = { min : 2, max : 200, current: 2, precision : 1000, }; 
 const speed = { min : 1, max : 100, current: 10, }; 
 const thickness = { min : 1, max : 20, current: 1, }; 
+const sliders = [];
 
 const circleSize = 400;
 const dotSize = 5;
@@ -21,29 +22,19 @@ function setup() {
 }
 
 function createSliders() {
-    modulo.slider = new Slider("modulo", modulo);
-    table.slider = new Slider("table", table);
-    speed.slider = new Slider("speed", speed);
-    thickness.slider = new Slider("thickness", thickness);
-    
-    modulo.slider.input(onModuloChange);
-    table.slider.input(draw);
-    speed.slider.input(draw);
-    thickness.slider.input(draw);
-}
-
-function drawSliders() {
-    modulo.slider.showText();
-    table.slider.showText();
-    speed.slider.showText();
-    thickness.slider.showText();
-}
-
-function onModuloChange() {
-    colors = chroma.scale([chroma.random(),chroma.random()])
+    modulo.slider = new Slider("modulo", modulo, () => {
+        colors = chroma.scale([chroma.random(),chroma.random()])
                    .mode('lch')
                    .colors(modulo.slider.value);
-    console.log(colors);
+    });
+    table.slider = new Slider("table", table, () => { draw(); } );
+    speed.slider = new Slider("speed", speed, () => { draw(); } );
+    thickness.slider = new Slider("thickness", thickness, () => { draw(); } );
+
+    sliders.push(modulo.slider);
+    sliders.push(table.slider);
+    sliders.push(speed.slider);
+    sliders.push(thickness.slider);
 }
 
 function draw() {
@@ -51,7 +42,7 @@ function draw() {
 
     table.slider.increment(speed.slider.value);
 
-    drawSliders();
+    sliders.forEach(slider => slider.update());
 
     positionList = [];
 
@@ -60,13 +51,13 @@ function draw() {
     translate(center.x, center.y);
     rotate(-PI / 2);
 
-    drawDots();
+    calulate();
     drawLines();
     
     pop();
 }
 
-function drawDots() {
+function calulate() {
     fill(0);
     
     modulo.current = modulo.slider.value;
@@ -85,7 +76,7 @@ function drawDots() {
 }
 
 function drawLines() {
-    fill(0); // todo : ajouter un degradé de couleur fonction de l'avancement dans le cercle
+    fill(0);
     stroke(0);
 
     table.current = table.slider.value;

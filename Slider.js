@@ -23,7 +23,7 @@ class Slider {
         this.value = this.valueRaw + number;
     }
 
-    constructor(name, {min, max, current, precision}) {
+    constructor(name, {min, max, current, precision}, handleOnChange) {
         this.name = name;        
         this.min = min;
         this.max = max;
@@ -33,22 +33,24 @@ class Slider {
             this.max *= this.precision;
             this.curr *= this.precision;
         }
-        this.init();
+        this.init(handleOnChange);
     }
 
-    init() {
+    init(handleOnChange) {
         this.slider = createSlider(this.min, this.max, this.current);
         this.y = 10 + 20 * Slider.counter;
         this.slider.position(this.x, this.y);
         this.slider.style("width", "700px");
+        
+        if (handleOnChange !== undefined) {
+            this.slider.input(handleOnChange);
+        }
     }
 
-    showText() {
+    update() {
         textSize(15);
         text(`${this.name} = ${this.value}`, this.x - 100, this.y + 5);
     }
-
-    
 
     input(cb) {
         this.slider.input(cb);
