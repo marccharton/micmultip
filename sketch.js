@@ -9,6 +9,7 @@ const dotSize = 5;
 let positionList = [];
 
 const center = {};
+let colors = [];
 
 function setup() {
     createSliders();
@@ -25,17 +26,26 @@ function createSliders() {
     speed.slider = new Slider("speed", speed);
     thickness.slider = new Slider("thickness", thickness);
     
-    modulo.slider.input(draw);
+    modulo.slider.input(onModuloChange);
     table.slider.input(draw);
     speed.slider.input(draw);
     thickness.slider.input(draw);
 }
+
 function drawSliders() {
     modulo.slider.showText();
     table.slider.showText();
     speed.slider.showText();
     thickness.slider.showText();
 }
+
+function onModuloChange() {
+    colors = chroma.scale([chroma.random(),chroma.random()])
+                   .mode('lch')
+                   .colors(modulo.slider.value);
+    console.log(colors);
+}
+
 function draw() {
     background(255);
 
@@ -69,13 +79,13 @@ function drawDots() {
             Math.floor(sin(offset * i) * circleSize),
         ];
         positionList.push(currentPos);
-        circle(...currentPos, dotSize);
+        // circle(...currentPos, dotSize);
     }
-    console.log({ positionList });
+    // console.log({ positionList });
 }
 
 function drawLines() {
-    fill(15);
+    fill(0); // todo : ajouter un degradé de couleur fonction de l'avancement dans le cercle
     stroke(0);
 
     table.current = table.slider.value;
@@ -86,6 +96,10 @@ function drawLines() {
         const from = (TWO_PI / modulo.current) * i;
         const to = (TWO_PI / modulo.current) * ((table.current * i) % modulo.current);
     
+        if (colors.length > 0) {
+            stroke(colors[i]);
+        }
+
         line(
             round(cos(from) * circleSize),
             round(sin(from) * circleSize),
@@ -94,7 +108,7 @@ function drawLines() {
         );
     }
 
-    console.log({ positionList });
+    // console.log({ positionList });
 }
 
 // This Redraws the Canvas when resized
