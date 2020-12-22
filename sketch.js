@@ -87,6 +87,7 @@ function drawPoints() {
     const offset = TWO_PI / modulo.current;
 
     for (let i = 0; i < modulo.current; i += 1) {
+        fill(colors.list[colors.list.length - i - 1]);
         circle(
             Math.floor(cos(offset * i) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
             Math.floor(sin(offset * i) * circleSize) + random(-tilt.slider.value, tilt.slider.value), 
