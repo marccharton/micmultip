@@ -3,8 +3,11 @@ const modulo = { min : 2, max : 700, current: 400, };
 const table = { min : 2, max : 200, current: 50, precision : 1000, }; 
 const speed = { min : 1, max : 100, current: 5, }; 
 const thickness = { min : 1, max : 300, current: 2, }; 
-const dotSize = { min : 0, max : 50, current: 20, }; 
+const dotSize = { min : 0, max : 200, current: 20, }; 
+const tilt = { min : 0, max : 50, current: 0, }; 
 const sliders = [];
+
+
 
 let circleSize;
 
@@ -31,12 +34,14 @@ function createControls() {
     speed.slider = new Slider("speed", speed);
     thickness.slider = new Slider("thickness", thickness);
     dotSize.slider = new Slider("Dots Size", dotSize);
+    tilt.slider = new Slider("Tilt Mode", tilt);
 
     sliders.push(modulo.slider);
     sliders.push(table.slider);
     sliders.push(speed.slider);
     sliders.push(thickness.slider);
     sliders.push(dotSize.slider);
+    sliders.push(tilt.slider);
 
     changeColorsButton = createButton("Random Colors");
     changeColorsButton.position(100, 10);
@@ -83,8 +88,8 @@ function drawPoints() {
 
     for (let i = 0; i < modulo.current; i += 1) {
         circle(
-            Math.floor(cos(offset * i) * circleSize),
-            Math.floor(sin(offset * i) * circleSize), 
+            Math.floor(cos(offset * i) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
+            Math.floor(sin(offset * i) * circleSize) + random(-tilt.slider.value, tilt.slider.value), 
             dotSize.slider.value,
         );
     }
@@ -105,10 +110,10 @@ function drawLines() {
         }
 
         line(
-            round(cos(from) * circleSize),
-            round(sin(from) * circleSize),
-            round(cos(to) * circleSize),
-            round(sin(to) * circleSize),
+            round(cos(from) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
+            round(sin(from) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
+            round(cos(to) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
+            round(sin(to) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
         );
     }
 
