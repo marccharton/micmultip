@@ -30,14 +30,18 @@ function createSliders() {
     speed.slider.input(draw);
     thickness.slider.input(draw);
 }
+function drawSliders() {
+    modulo.slider.showText();
+    table.slider.showText();
+    speed.slider.showText();
+    thickness.slider.showText();
+}
 function draw() {
     background(255);
 
     table.slider.increment(speed.slider.value);
 
-    modulo.slider.draw();
-    table.slider.draw();
-    speed.slider.draw();
+    drawSliders();
 
     positionList = [];
 

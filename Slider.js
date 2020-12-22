@@ -37,15 +37,13 @@ class Slider {
     }
 
     init() {
-        
-
         this.slider = createSlider(this.min, this.max, this.current);
         this.y = 10 + 20 * Slider.counter;
         this.slider.position(this.x, this.y);
         this.slider.style("width", "700px");
     }
 
-    draw() {
+    showText() {
         textSize(15);
         text(`${this.name} = ${this.value}`, this.x - 100, this.y + 5);
     }
