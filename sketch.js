@@ -1,4 +1,4 @@
-// params
+// sliders
 const modulo = { min : 2, max : 700, current: 400, };
 const table = { min : 2, max : 200, current: 50, precision : 1000, }; 
 const speed = { min : 1, max : 100, current: 5, }; 
@@ -11,10 +11,29 @@ let circleSize;
 let tweakerVisibility = false;
 
 const center = {};
+
+const COLORS_MODE = {
+    normal : 0,
+    dark : 1,
+};
+
+const colorSet = [
+    {
+        font: 0,
+        background: 255,
+    },
+    {
+        font: 255,
+        background: 0,
+    }
+];
+
 let colors = {
     from: "#000",
     to: "#FFF",
+    interface: COLORS_MODE.dark,
 };
+
 
 function setup() {
     createControls();
@@ -68,7 +87,8 @@ function generateGradient(from, to) {
 }
 
 function draw() {
-    background(0); // todo : dark mode.
+    background(colorSet[colors.interface].background);
+    fill(colorSet[colors.interface].font);
 
     table.slider.increment(speed.slider.value);
 
