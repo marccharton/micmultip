@@ -1,9 +1,9 @@
 // sliders
 const modulo = { min : 2, max : 700, current: 400, };
-const table = { min : 2, max : 200, current: 50, precision : 1000, }; 
-const speed = { min : 1, max : 100, current: 5, }; 
-const thickness = { min : 1, max : 300, current: 2, }; 
-const dotSize = { min : 0, max : 200, current: 20, }; 
+const table = { min : 2, max : 200, current: 133, precision : 1000, }; 
+const speed = { min : 1, max : 100, current: 2, }; 
+const thickness = { min : 1, max : 300, current: 1, }; 
+const dotSize = { min : 0, max : 200, current: 0, }; 
 const tilt = { min : 0, max : 50, current: 0, }; 
 const sliders = [];
 
