@@ -57,9 +57,9 @@ function createControls() {
     table.slider = new Slider("table", table);
     speed.slider = new Slider("speed", speed);
     thickness.slider = new Slider("thickness", thickness);
-    dotSize.slider = new Slider("Dots Size", dotSize);
-    tilt.slider = new Slider("Tilt Mode", tilt);
-    alive.slider = new Slider("Alive", alive);
+    dotSize.slider = new Slider("dots Size", dotSize);
+    tilt.slider = new Slider("tilt Mode", tilt);
+    alive.slider = new Slider("alive", alive);
 
     sliders.push(modulo.slider);
     sliders.push(table.slider);
@@ -77,7 +77,17 @@ function createControls() {
     randomValuesButton.position(220, 10);
     randomValuesButton.mousePressed(() => {
         sliders.forEach(slider => {
-            const newValue = round(random(slider.min, slider.max / 3))
+            let min = slider.min;
+            let max = slider.max;
+            
+            if (slider.name === "speed" || slider.name === "tilt Mode") {
+                max /= 6;
+            }
+            else if (slider.name === "thickness" || slider.name === "alive" || slider.name === "dots Size") {
+                max /= 3;
+            }
+
+            const newValue = round(random(min, max))
             if (slider.name === "modulo") {
                 colors.list = generateGradient(colors.from, colors.to, newValue);
             }
