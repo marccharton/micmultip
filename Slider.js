@@ -1,6 +1,6 @@
 class Slider {
     static _counter = 0;  
-    x = 200;
+    x = 100;
     y = 0; // calculé en fonction du nombre de sliders présents
     precision = null;
 
@@ -38,8 +38,8 @@ class Slider {
 
     init(handleOnChange) {
         this.slider = createSlider(this.min, this.max, this.current);
-        this.y = 50 + 20 * Slider.counter;
-        this.slider.position(this.x, this.y);
+        this.y = 40 + 20 * Slider.counter;
+        this.slider.position(this.x + 120, this.y);
         this.slider.style("width", "700px");
         
         if (handleOnChange !== undefined) {
@@ -49,7 +49,7 @@ class Slider {
 
     drawText() {
         textSize(15);
-        text(`${this.name} = ${this.value}`, this.x - 100, this.y + 5);
+        text(`${this.name} = ${this.value}`, this.x, this.y + 15);
     }
 
     input(cb) {

@@ -5,12 +5,15 @@ const speed = { min : 1, max : 100, current: 2, };
 const thickness = { min : 1, max : 300, current: 1, }; 
 const dotSize = { min : 0, max : 200, current: 0, }; 
 const tilt = { min : 0, max : 50, current: 0, }; 
+const alive = { min : 0, max : 100, current: 20, }; 
 const sliders = [];
 
 let colorIndex = 0;
 
 let circleSize;
 let tweakerVisibility = false;
+
+const noiseFactor = 5;
 
 const COLORS_MODE = {
     normal : 0,
@@ -56,6 +59,7 @@ function createControls() {
     thickness.slider = new Slider("thickness", thickness);
     dotSize.slider = new Slider("Dots Size", dotSize);
     tilt.slider = new Slider("Tilt Mode", tilt);
+    alive.slider = new Slider("Alive", alive);
 
     sliders.push(modulo.slider);
     sliders.push(table.slider);
@@ -63,6 +67,7 @@ function createControls() {
     sliders.push(thickness.slider);
     sliders.push(dotSize.slider);
     sliders.push(tilt.slider);
+    sliders.push(alive.slider);
 
     changeColorsButton = createButton("Random Colors");
     changeColorsButton.position(100, 10);
@@ -118,10 +123,8 @@ function draw() {
     }
     colorIndex++;
 
-    console.log(colorSet[colors.interface].background);
     background(colorSet[colors.interface].background);
     fill(colorSet[colors.interface].font);
-
 
     table.slider.increment(speed.slider.value);
 
@@ -138,7 +141,7 @@ function draw() {
     
     translate(windowWidth / 2, windowHeight / 2);
     rotate(-PI / 2);
-    rotate(-table.slider.value);
+    rotate(-table.slider.value * alive.slider.value / 500);
 
     drawLines();
     drawPoints();
@@ -156,8 +159,8 @@ function drawPoints() {
     for (let i = 0; i < modulo.current; i += 1) {
         fill(colors.list[colors.list.length - i - 1]);
         circle(
-            Math.floor(cos(offset * i) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
-            Math.floor(sin(offset * i) * circleSize) + random(-tilt.slider.value, tilt.slider.value), 
+            Math.floor(cos(offset * i) * circleSize) + random(-tilt.slider.value, tilt.slider.value) + noise(table.current * tilt.slider.value * 0.1) * noiseFactor * alive.slider.value,
+            Math.floor(sin(offset * i) * circleSize) + random(-tilt.slider.value, tilt.slider.value) + noise(table.current * tilt.slider.value * 0.1) * noiseFactor * alive.slider.value, 
             dotSize.slider.value,
         );
     }
@@ -180,13 +183,12 @@ function drawLines() {
         }
 
         line(
-            round(cos(from) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
-            round(sin(from) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
-            round(cos(to) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
-            round(sin(to) * circleSize) + random(-tilt.slider.value, tilt.slider.value),
+            round(cos(from) * circleSize) + random(-tilt.slider.value, tilt.slider.value) + noise(table.current * 0.1) * noiseFactor * alive.slider.value,
+            round(sin(from) * circleSize) + random(-tilt.slider.value, tilt.slider.value) + noise(table.current * 0.1) * noiseFactor * alive.slider.value,
+            round(cos(to) * circleSize) + random(-tilt.slider.value, tilt.slider.value) + noise(table.current * 0.0) * noiseFactor * alive.slider.value,
+            round(sin(to) * circleSize) + random(-tilt.slider.value, tilt.slider.value) + noise(table.current * 0.1) * noiseFactor * alive.slider.value,
         );
     }
-
 }
 
 // This Redraws the Canvas when resized
