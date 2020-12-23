@@ -7,9 +7,8 @@ const dotSize = { min : 0, max : 200, current: 20, };
 const tilt = { min : 0, max : 50, current: 0, }; 
 const sliders = [];
 
-
-
 let circleSize;
+let tweakerVisibility = false;
 
 const center = {};
 let colors = {
@@ -46,6 +45,14 @@ function createControls() {
     changeColorsButton = createButton("Random Colors");
     changeColorsButton.position(100, 10);
     changeColorsButton.mousePressed(randomColors);
+
+    showTweakerButton = createButton("Show Tweaker Box");
+    showTweakerButton.position(220, 10);
+    showTweakerButton.mousePressed(changeTweakerVisibility);
+}
+
+function changeTweakerVisibility() {
+    tweakerVisibility = !tweakerVisibility;
 }
 
 function randomColors() {
@@ -65,7 +72,14 @@ function draw() {
 
     table.slider.increment(speed.slider.value);
 
-    sliders.forEach(slider => slider.update());
+    sliders.forEach(slider => {
+        if (tweakerVisibility) {
+            slider.show();
+            slider.drawText();
+        } else {
+            slider.hide();
+        }
+    });
 
     push();
     

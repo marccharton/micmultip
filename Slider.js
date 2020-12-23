@@ -47,12 +47,20 @@ class Slider {
         }
     }
 
-    update() {
+    drawText() {
         textSize(15);
         text(`${this.name} = ${this.value}`, this.x - 100, this.y + 5);
     }
 
     input(cb) {
         this.slider.input(cb);
+    }
+
+    show() {
+        this.slider.show();
+    }
+
+    hide() {
+        this.slider.hide();
     }
 }
