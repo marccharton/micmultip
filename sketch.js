@@ -18,11 +18,11 @@ let colors = {
 
 function setup() {
     createControls();
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth, windowHeight).parent("container");;
     frameRate(30);
     colors.list = generateGradient(colors.from, colors.to);
 
-    circleSize = windowHeight / 3;
+    circleSize = windowHeight / 2.5;
     center.x = windowWidth / 2;
     center.y = windowHeight / 2;
 }
@@ -68,7 +68,7 @@ function generateGradient(from, to) {
 }
 
 function draw() {
-    background(255); // todo : dark mode.
+    background(0); // todo : dark mode.
 
     table.slider.increment(speed.slider.value);
 
