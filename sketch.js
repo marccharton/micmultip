@@ -7,12 +7,15 @@ const dotSize = { min : 0, max : 200, current: 20, };
 const tilt = { min : 0, max : 50, current: 0, }; 
 const sliders = [];
 
+let colorIndex = 0;
+
 let circleSize;
 let tweakerVisibility = false;
 
 const COLORS_MODE = {
     normal : 0,
     dark : 1,
+    lsd : 2,
 };
 
 const colorSet = [
@@ -23,19 +26,24 @@ const colorSet = [
     {
         font: 255,
         background: 0,
+    },
+    {
+        font: 255,
+        get background() {
+            return colors.list[colorIndex];
+        }
     }
 ];
 
 let colors = {
     from: "#000",
     to: "#FFF",
-    interface: COLORS_MODE.dark,
+    interface: COLORS_MODE.normal,
 };
 
 function setup() {
     createControls();
     createCanvas(windowWidth, windowHeight).parent("container");;
-    frameRate(30);
     colors.list = generateGradient(colors.from, colors.to, modulo.slider.value);
 
     circleSize = windowHeight / 2.5;
@@ -60,17 +68,36 @@ function createControls() {
     changeColorsButton.position(100, 10);
     changeColorsButton.mousePressed(randomColors);
 
+    randomValuesButton = createButton("Random Values");
+    randomValuesButton.position(220, 10);
+    randomValuesButton.mousePressed(() => {
+        sliders.forEach(slider => {
+            const newValue = round(random(slider.min, slider.max / 3))
+            if (slider.name === "modulo") {
+                colors.list = generateGradient(colors.from, colors.to, newValue);
+            }
+            slider.value = newValue;
+        });
+        
+    });
+
     showTweakerButton = createButton("Show Tweaker Box");
-    showTweakerButton.position(220, 10);
+    showTweakerButton.position(340, 10);
     showTweakerButton.mousePressed(() => {
         tweakerVisibility = !tweakerVisibility;
     });
 
-    interfaceButton = createButton("Change Interface Mode");
-    interfaceButton.position(360, 10);
+    interfaceButton = createButton("Change Background");
+    interfaceButton.position(480, 10);
     interfaceButton.mousePressed(() => {
-        colors.interface = colors.interface === COLORS_MODE.dark ? COLORS_MODE.normal : COLORS_MODE.dark;
+        colors.interface = colors.interface === COLORS_MODE.normal 
+            ? COLORS_MODE.dark 
+            : colors.interface === COLORS_MODE.dark
+                ? COLORS_MODE.lsd 
+                : COLORS_MODE.normal;
     });
+
+
 }
 
 function randomColors() {
@@ -86,8 +113,15 @@ function generateGradient(from, to, steps) {
 }
 
 function draw() {
+    if (colorIndex >= colors.list.length - 1) {
+        colorIndex = 0;
+    }
+    colorIndex++;
+
+    console.log(colorSet[colors.interface].background);
     background(colorSet[colors.interface].background);
     fill(colorSet[colors.interface].font);
+
 
     table.slider.increment(speed.slider.value);
 
@@ -132,7 +166,7 @@ function drawPoints() {
 function drawLines() {
 
     table.current = table.slider.value;
-    modulo.current = modulo.slider.value;
+    modulo.current = modulo.slider.value - 1;
 
     strokeWeight(thickness.slider.value);
     for (let i = 0; i < modulo.current; i += 1) {
@@ -140,6 +174,8 @@ function drawLines() {
         const to = (TWO_PI / modulo.current) * ((table.current * i) % modulo.current);
     
         if (colors.list.length > 0) {
+            // console.log(i);
+            // console.log(colors.list[i]);
             stroke(colors.list[i]);
         }
 
