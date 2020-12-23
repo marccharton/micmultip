@@ -203,5 +203,6 @@ function drawLines() {
 
 // This Redraws the Canvas when resized
 windowResized = function () {
+    circleSize = windowHeight / 2.5;
     resizeCanvas(windowWidth, windowHeight);
 };
