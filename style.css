@@ -10,6 +10,20 @@
 	align-items: center;
 }
 
+button {
+	background: white;
+    border: 3px solid black;
+    padding: 5px;
+	text-transform: lowercase;
+	font-weight: bold;
+}
+
+button:hover {
+	background: black;
+	border: 3px solid white;
+	color: white;
+}
+
 canvas {
 	z-index:1;
 	box-shadow: #222 2px 2px 2px;
