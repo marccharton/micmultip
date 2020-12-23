@@ -10,8 +10,6 @@ const sliders = [];
 let circleSize;
 let tweakerVisibility = false;
 
-const center = {};
-
 const COLORS_MODE = {
     normal : 0,
     dark : 1,
@@ -34,7 +32,6 @@ let colors = {
     interface: COLORS_MODE.dark,
 };
 
-
 function setup() {
     createControls();
     createCanvas(windowWidth, windowHeight).parent("container");;
@@ -42,8 +39,6 @@ function setup() {
     colors.list = generateGradient(colors.from, colors.to);
 
     circleSize = windowHeight / 2.5;
-    center.x = windowWidth / 2;
-    center.y = windowHeight / 2;
 }
 
 function createControls() {
@@ -103,7 +98,7 @@ function draw() {
 
     push();
     
-    translate(center.x, center.y);
+    translate(windowWidth / 2, windowHeight / 2);
     rotate(-PI / 2);
     rotate(-table.slider.value);
 
