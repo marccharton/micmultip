@@ -80,7 +80,7 @@ function randomColors() {
 }
 
 function generateGradient(from, to, steps) {
-    return chroma.scale([from, to])
+    return chroma.scale([from, to, from])
                  .mode('lch')
                  .colors(steps);
 }
