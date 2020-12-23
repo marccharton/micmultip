@@ -36,19 +36,20 @@ Ajout d'aléatoire dans le dessin de la forme pour ajouter de l'imprécision
 
 Ajout de mouvements dans le dessin
 
-
-
-## Preview
-
-
-
 ## Origine
 
 ### Vidéo 
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/-X49VQgi86E/0.jpg)](https://www.youtube.com/watch?v=-X49VQgi86E)
 
-### Code
+### Application
 
 [Micmaths - Table multi](http://micmaths.com/applis/tablesmulti.html)
 
+## Preview
+
+![preview](exports/preview.png)
+![preview1](exports/preview1.png)
+![preview2](exports/preview2.png)
+![preview3](exports/preview3.png)
+![preview4](exports/preview4.png)
