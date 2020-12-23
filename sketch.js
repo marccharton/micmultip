@@ -36,13 +36,13 @@ function setup() {
     createControls();
     createCanvas(windowWidth, windowHeight).parent("container");;
     frameRate(30);
-    colors.list = generateGradient(colors.from, colors.to);
+    colors.list = generateGradient(colors.from, colors.to, modulo.slider.value);
 
     circleSize = windowHeight / 2.5;
 }
 
 function createControls() {
-    modulo.slider = new Slider("modulo", modulo, () => { colors.list = generateGradient(colors.from, colors.to) });
+    modulo.slider = new Slider("modulo", modulo, () => { colors.list = generateGradient(colors.from, colors.to, modulo.slider.value) });
     table.slider = new Slider("table", table);
     speed.slider = new Slider("speed", speed);
     thickness.slider = new Slider("thickness", thickness);
@@ -62,23 +62,27 @@ function createControls() {
 
     showTweakerButton = createButton("Show Tweaker Box");
     showTweakerButton.position(220, 10);
-    showTweakerButton.mousePressed(changeTweakerVisibility);
-}
+    showTweakerButton.mousePressed(() => {
+        tweakerVisibility = !tweakerVisibility;
+    });
 
-function changeTweakerVisibility() {
-    tweakerVisibility = !tweakerVisibility;
+    interfaceButton = createButton("Change Interface Mode");
+    interfaceButton.position(360, 10);
+    interfaceButton.mousePressed(() => {
+        colors.interface = colors.interface === COLORS_MODE.dark ? COLORS_MODE.normal : COLORS_MODE.dark;
+    });
 }
 
 function randomColors() {
     colors.from = chroma.random();
     colors.to = chroma.random();
-    colors.list = generateGradient(colors.from, colors.to);
+    colors.list = generateGradient(colors.from, colors.to, modulo.slider.value);
 }
 
-function generateGradient(from, to) {
+function generateGradient(from, to, steps) {
     return chroma.scale([from, to])
                  .mode('lch')
-                 .colors(modulo.slider.value);
+                 .colors(steps);
 }
 
 function draw() {
