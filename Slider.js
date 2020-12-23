@@ -1,7 +1,7 @@
 class Slider {
     static _counter = 0;  
     x = 100;
-    y = 0; // calculé en fonction du nombre de sliders présents
+    y = 50; // calculé en fonction du nombre de sliders présents
     precision = null;
 
     static get counter() {
@@ -38,7 +38,7 @@ class Slider {
 
     init(handleOnChange) {
         this.slider = createSlider(this.min, this.max, this.current);
-        this.y = 40 + 20 * Slider.counter;
+        this.y += 20 * Slider.counter;
         this.slider.position(this.x + 120, this.y);
         this.slider.style("width", "700px");
         
