@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://micmaths.com/applis/tablesmulti.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <link rel="stylesheet" href="./Les tables de multiplication_files/styletables.css">
+		<title>Les tables de multiplication</title>
+	</head>
+
+	<body style="">
+
+	<div id="main">
+
+		<div id="description" style="width: 844.55px;">
+			<h1>Les tables de multiplication</h1>
+			<p>Quand le kangourou se trouve sur la x<sup>ème</sup> colonne et la y<sup>ème</sup> ligne, l'image affiche la table de multiplication de y modulo x. Vous pouvez déplacer le kangourou avec la souris ou à l'aide des flèches du clavier.</p>
+		</div>
+
+		<div id="affichage" style="height: 266.7px; width: 266.7px;">
+			<canvas id="canvas" width="271" height="271">
+	 			<p>Désolé, votre navigateur ne supporte pas Canvas.</p>
+			</canvas>
+		</div>
+
+		<div id="controle" style="width: 492.1px; height: 266.7px;">
+			<canvas id="controleC" width="496" height="271">
+	 			<p>Désolé, votre navigateur ne supporte pas Canvas.</p>
+			</canvas>
+			<img id="kang" src="./Les tables de multiplication_files/kangourou2.png" draggable="true" alt="K" style="width: 15px; height: 15px; left: 483.6px; top: 121.95px;">
+		</div>
+
+
+		<div id="parametres" style="width: 844.55px;">
+
+			<div style="float:left;">
+				<h2>Paramètres</h2>
+				<p>
+				</p><center>
+				<table style="text-align:right; padding: 10px;">
+					<tbody><tr>
+						<td><strong>Position</strong><br></td>
+						<td><strong>x :</strong> <input id="xKang" type="text" value="1" style="width:50px;" onkeypress="if (event.keyCode == 13) actuControle()"></td>
+						<td><strong>y :</strong> <input id="yKang" type="text" value="1" style="width:50px;" onkeypress="if (event.keyCode == 13) actuControle()"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><strong>Bornes</strong></td>
+						<td><strong>max(x) :</strong> <input id="maxx" type="text" value="12" style="width:50px;" onkeypress="if (event.keyCode == 13) actuControle()"></td>
+						<td><strong>max(y) :</strong> <input id="maxy" type="text" value="8" style="width:50px;" onkeypress="if (event.keyCode == 13) actuControle()"></td>
+						<td><img src="./Les tables de multiplication_files/prop.png" alt=""> <input id="XYproportionnel" type="checkbox"> </td>
+					</tr>
+					<tr>
+						<td><strong>Pas</strong></td>
+						<td><strong>pas(x) :</strong> <input id="pasx" type="text" value="1" style="width:50px;" onkeypress="if (event.keyCode == 13) actuControle()"></td>
+						<td><strong>pas(y) :</strong> <input id="pasy" type="text" value="1" style="width:50px;" onkeypress="if (event.keyCode == 13) actuControle()"></td>
+						<td></td>
+					</tr>
+				</tbody></table>
+				</center>
+			</div>
+			<div style="float:left;">
+
+				<h2>Affichage</h2>
+				<center>
+				<table style="text-align:right; padding: 10px;">
+					<tbody><tr>
+						<td><strong>Épaisseur de ligne :</strong> <input id="epaisseur" type="text" value="1" style="width:50px;" onkeypress="if (event.keyCode == 13) actuControle()"></td>
+					</tr>
+					<tr>
+						<td><strong>Taille des points :</strong> <input id="points" type="text" value="0" style="width:50px;" onkeypress="if (event.keyCode == 13) actuControle()"></td>
+					</tr>
+				</tbody></table>
+				</center>
+			</div>
+
+			<div style="float:left;">
+				<h2>Note</h2>
+				<center>
+				<table>
+					<tbody><tr>
+						<td>Pour accélérer l'affichage quand il y a beaucoup de points, désactiver l'affichage des points en réglant leur taille à 0.</td>
+					</tr>
+
+				</tbody></table>
+				</center>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="script.js"></script>
+
+</body></html>
